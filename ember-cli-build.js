@@ -17,7 +17,7 @@ module.exports = function (defaults) {
     }
   })
 
-  if (app.env === 'test') {
+  if (app.env === 'test' || app.env === 'development') {
     ;[
       'bower_components/sinon-chai/lib/sinon-chai.js',
       'bower_components/chai-jquery/chai-jquery.js'

@@ -1,6 +1,6 @@
 # ember-test-utils
 
-Ember testing utilities.
+Ember testing utilities and test helpers.
 
 ###### Dependencies
 
@@ -18,6 +18,7 @@ Ember testing utilities.
 
  * [Installation](#Installation)
  * [Getting Started](#Getting Started)
+ * [Test Helpers](#Test Helpers)
  * [Contributing](#Contributing)
 
 ## Installation
@@ -298,6 +299,39 @@ describe(test.label, function () {
   })
 })
 ```
+
+## Test Helpers
+
+* [waitForRender](#waitForRender)
+
+### waitForRender
+
+**Type:** async
+
+**Requires:** [ember-hook](https://github.com/Ticketfly/ember-hook)
+
+The `waitForRender` helper waits for an element to be found in the DOM before resolving.  It requires one argument which is the ember-hook name of the element to look for.
+
+**How to use in your tests**
+
+Import the `waitForRender` helper into the */tests/helper/start-app.js* file of your application via:
+
+`import 'ember-test-utils/test-support/wait-for-render'`
+
+Then in your tests use like this, for example:
+
+```
+it('should have items in the list', function () {
+  const hookName = 'the-list'
+
+  waitForRender(hookName)
+
+  return andThen(() => {
+    expect($hook(hookName).length).to.equal(2)
+  })
+})
+```
+
 
 ## Build Optimization
 
