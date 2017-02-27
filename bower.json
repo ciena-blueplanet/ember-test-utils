@@ -1,9 +1,6 @@
 {
   "name": "ember-test-utils",
   "dependencies": {
-    "ember": "^2.11.0",
-    "ember-cli-shims": "0.1.0",
-    "ember-mocha": "~0.8.11",
     "Faker": "3.0.1",
     "pretender": "~0.12.0",
     "sinon-chai": "^2.8.0",

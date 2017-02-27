@@ -542,7 +542,7 @@ For more information on using ember-cli, visit [http://www.ember-cli.com/](http:
 [bithound-img]: https://www.bithound.io/github/ciena-blueplanet/ember-test-utils/badges/score.svg "bitHound"
 [bithound-url]: https://www.bithound.io/github/ciena-blueplanet/ember-test-utils
 
-[ember-img]: https://img.shields.io/badge/ember-1.13.0+-orange.svg "Ember 1.13.0+"
+[ember-img]: https://img.shields.io/badge/ember-2.3.0+-orange.svg "Ember 2.3.0+"
 
 [ci-img]: https://img.shields.io/travis/ciena-blueplanet/ember-test-utils.svg "Travis CI Build Status"
 [ci-url]: https://travis-ci.org/ciena-blueplanet/ember-test-utils

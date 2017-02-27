@@ -1,52 +1,50 @@
 sudo: required
 dist: trusty
 language: node_js
-
 node_js:
 - '6.9.1'
 - 'stable'
-
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
     - google-chrome
+    - ubuntu-toolchain-r-test
     packages:
     - google-chrome-stable
     - g++-4.8
   firefox: 'latest-esr'
-
+cache:
+  directories:
+    - node_modules
 env:
   matrix:
-  - EMBER_TRY_SCENARIO=ember-1-13
+  - EMBER_TRY_SCENARIO=ember-2-3
   - EMBER_TRY_SCENARIO=ember-2-8
   - EMBER_TRY_SCENARIO=default
   - EMBER_TRY_SCENARIO=ember-release
   global:
     - CXX=g++-4.8
     - secure: ijqY3dg0KFt0W5vtfZzFn5gCX9tl4+R99cMGCXUEwilhleDm2SCUCz+nAgkcQUA1pkW2VVlG/GtpYnPDG1yq8sR9tVrYzsn86u0Mj+ow04JH+tAYc55IkqpfXfHe4vyEzrHj7RtczOkLKLAyHQlco5f8Cq+e5RdZ3EGyjEgP8bwLBPbn3n4lYQRw87xFRjsmSkrk5VLL3xEg/P+V/kJgEBXKEWU8k2OrOlSarMvP4+hCNiUCNsjEdvKeWxs1soq7SIqoTChwPiFtOA8EvxTK/GFoZMjSBvSCO/EhzIXosUFfHRwYTrJkR4RaKSi/qxTRTsrams4e6NBLlYQ6MpnBRxzkRs/XgJ/v2krhTH4Ki/w2vN7rSLzlE50h8YG9NaAh3uI99vnFto9kguSwzdN7x/v0gM7WM2SmZ2LQJMQwhT1k3/dtPGmL7RB5XTV/+Nstf41PGxvPUrw9zu6iAsyfV+6a8KgvCOTkS+z9SXZ1AzAAhpSe2aonTs8Qukzsf84c70YtdsuD+fv1B+dpes4VwOpk8VcBl6gTcicQ1e/HeWD2OOq9QsILKjrpI+x5tezs5/Mkcj9VhZE8hqqQ/ByEY4/cNlWXwtv/BRV3iaxlTsu1IMCb+/wZcNqv6ENonI6yrXKORZT3ivs5WUHRZQ1DCD3dZuoVtoDJpTsYgEdm55Y=
-
 matrix:
   fast_finish: true
   allow_failures:
   - env: EMBER_TRY_SCENARIO=ember-release
-
 before_install:
-- "export DISPLAY=:99.0"
-- "sh -e /etc/init.d/xvfb start"
 - npm config set spin false
-- npm install -g coveralls pr-bumper
-
+- npm install -g coveralls pr-bumper@^1.0.0
+- $(npm root -g)/pr-bumper/.travis/maybe-check-scope.sh
 install:
 - $(npm root -g)/pr-bumper/.travis/maybe-install.sh
-
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
 script:
 - $(npm root -g)/pr-bumper/.travis/maybe-test.sh
-- if [ $EMBER_TRY_SCENARIO == "default" ]; then $(npm root -g)/pr-bumper/.travis/maybe-bump-version.sh; fi
-
+- .travis/maybe-bump-version.sh
 after_success:
 - $(npm root -g)/pr-bumper/.travis/maybe-publish-coverage.sh
-
+- .travis/maybe-publish-gh-pages.sh
 deploy:
   provider: npm
   email: npm.ciena@gmail.com
@@ -56,12 +54,8 @@ deploy:
   on:
     all_branches: true
     condition: "$EMBER_TRY_SCENARIO = 'default'"
-    node: 'stable'
+    node: '6.9.1'
     tags: true
-
-after_deploy:
-- .travis/publish-gh-pages.sh
-
 notifications:
   slack:
     secure: cMVH8CRip764A60F6N2Mih6UHi88I8sibtOhiTAXniKgJg2xitdormEFU4CUCAbb0PlXnZs1EkgIb4h8BlBMtFNoU7cUryCnR7w9X1WNr+t9D+pPQZvOdQdAqfnuVkW9lYV7cRPlVl5q5pbOYEyMFOmUblghuB/4jJyfKZJJN024e6nOw3OjNmZWW6dxmF8dKgS+To8w9HFzCfXm7N0BRI8iwbDte0nDBTZxSX62ybr3OmZQ84uqmIqgwRjGWLazLyglDOfJqnK81elyjqyAAuoIhZkr4GBlW4DPWcQIBbRwVRr1h/oBG+3YTnPmKzMS3dYBbzqOe3Rd8V/OvIfLQ++6MdKMri40dWOpoT5iVcEEuRMG3vBzvOOee3p+AkrMzneC+jH9IU/uc4mXMmr9eFbR4VNzN/JOtbGt7aDPt4aA6Iq2bFrxlzMKK2W8fNmE78GxZUOaOVenzh4M6BbSNyXb72qmaR5jNqD7qOqJM2BzPfNEQ0I3bJVZzrIh9N4f+fPJNirhiZ0tBuYnFedmiI9aa4/qFf2qcb75vEHxKenALBs5U1J4SaVt2FuaG0u8JejfFHeUBsNbEG1JgPq2WgsFM0DEnqYyGoZjwldP2GW9dtGyQrvbuDX/H8+tW4hYYI/XPokHiBt+LlKN+kPpjW56W9zMK7w7b+mME6MHLmk=
