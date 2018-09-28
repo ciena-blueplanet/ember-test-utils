@@ -1,3 +1,7 @@
+# 9.0.0 (2018-09-28)
+
+* Update eslint config standard for Ember 3
+
 # 8.1.2 (2018-07-20)
 
 * **Fixed** Travis API key.
