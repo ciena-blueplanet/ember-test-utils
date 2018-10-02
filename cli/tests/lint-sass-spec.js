@@ -48,7 +48,7 @@ describe('lint-sass', function () {
   beforeEach(function () {
     linter = new SassLinter()
     logOutput = []
-    sandbox = sinon.createSandbox()
+    sandbox = sinon.sandbox.create()
     sandbox.stub(console, 'log').callsFake(function (text) {
       logOutput.push(text)
     })

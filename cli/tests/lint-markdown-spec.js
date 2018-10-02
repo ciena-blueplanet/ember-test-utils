@@ -42,7 +42,7 @@ describe('lint-markdown', function () {
   beforeEach(function () {
     linter = new MarkdownLinter()
     logOutput = []
-    sandbox = sinon.createSandbox()
+    sandbox = sinon.sandbox.create()
     sandbox.stub(console, 'log').callsFake(function (text) {
       logOutput.push(text)
     })
