@@ -107,7 +107,7 @@ describe('lint-javascript', function () {
 
           sandbox.stub(CLIEngine.prototype, 'executeOnFiles').callsFake(function () {
             return originalFn.call(this, [
-              'tests/cli/fixtures/valid-*.js'
+              'cli/tests/fixtures/valid-*.js'
             ])
           })
 
@@ -133,7 +133,7 @@ describe('lint-javascript', function () {
 
           sandbox.stub(CLIEngine.prototype, 'executeOnFiles').callsFake(function () {
             return originalFn.call(this, [
-              'tests/cli/fixtures/warn-*.js'
+              'cli/tests/fixtures/warn-*.js'
             ])
           })
 
@@ -142,11 +142,11 @@ describe('lint-javascript', function () {
 
         it('should log expected output', function () {
           expect(logOutput).to.eql([
-            '\u001b[4mtests/cli/fixtures/warn-1.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-1.js\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  Unexpected console ' +
               'statement  \u001b[2mno-console\u001b[22m',
             '',
-            '\u001b[4mtests/cli/fixtures/warn-2.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-2.js\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  Unexpected console ' +
               'statement  \u001b[2mno-console\u001b[22m',
             '',
@@ -167,7 +167,7 @@ describe('lint-javascript', function () {
 
           sandbox.stub(CLIEngine.prototype, 'executeOnFiles').callsFake(function () {
             return originalFn.call(this, [
-              'tests/cli/fixtures/error-*.js'
+              'cli/tests/fixtures/error-*.js'
             ])
           })
           result = linter.lint()
@@ -175,11 +175,11 @@ describe('lint-javascript', function () {
 
         it('should log expected output', function () {
           expect(logOutput).to.eql([
-            '\u001b[4mtests/cli/fixtures/error-1.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/error-1.js\u001b[24m',
             '  \u001b[2m1:18\u001b[22m  \u001b[31merror\u001b[39m  Function ' +
               'has a complexity of 3  \u001b[2mcomplexity\u001b[22m',
             '',
-            '\u001b[4mtests/cli/fixtures/error-2.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/error-2.js\u001b[24m',
             '  \u001b[2m1:18\u001b[22m  \u001b[31merror\u001b[39m  Function ' +
               'has a complexity of 4  \u001b[2mcomplexity\u001b[22m',
             '',
@@ -258,7 +258,7 @@ describe('lint-javascript', function () {
 
           sandbox.stub(CLIEngine.prototype, 'executeOnFiles').callsFake(function () {
             return originalFn.call(this, [
-              'tests/cli/fixtures/valid-*.js'
+              'cli/tests/fixtures/valid-*.js'
             ])
           })
 
@@ -284,7 +284,7 @@ describe('lint-javascript', function () {
 
           sandbox.stub(CLIEngine.prototype, 'executeOnFiles').callsFake(function () {
             return originalFn.call(this, [
-              'tests/cli/fixtures/warn-*.js'
+              'cli/tests/fixtures/warn-*.js'
             ])
           })
 
@@ -293,11 +293,11 @@ describe('lint-javascript', function () {
 
         it('should log expected output', function () {
           expect(logOutput).to.eql([
-            '\u001b[4mtests/cli/fixtures/warn-1.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-1.js\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  Unexpected console ' +
               'statement  \u001b[2mno-console\u001b[22m',
             '',
-            '\u001b[4mtests/cli/fixtures/warn-2.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-2.js\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  Unexpected console ' +
               'statement  \u001b[2mno-console\u001b[22m',
             '',
@@ -318,7 +318,7 @@ describe('lint-javascript', function () {
 
           sandbox.stub(CLIEngine.prototype, 'executeOnFiles').callsFake(function () {
             return originalFn.call(this, [
-              'tests/cli/fixtures/error-*.js'
+              'cli/tests/fixtures/error-*.js'
             ])
           })
           result = linter.lint()
@@ -326,11 +326,11 @@ describe('lint-javascript', function () {
 
         it('should log expected output', function () {
           expect(logOutput).to.eql([
-            '\u001b[4mtests/cli/fixtures/error-1.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/error-1.js\u001b[24m',
             '  \u001b[2m1:18\u001b[22m  \u001b[31merror\u001b[39m  Function ' +
               'has a complexity of 3  \u001b[2mcomplexity\u001b[22m',
             '',
-            '\u001b[4mtests/cli/fixtures/error-2.js\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/error-2.js\u001b[24m',
             '  \u001b[2m1:18\u001b[22m  \u001b[31merror\u001b[39m  Function ' +
               'has a complexity of 4  \u001b[2mcomplexity\u001b[22m',
             '',
@@ -467,7 +467,7 @@ describe('lint-javascript', function () {
         return originalFn(...arguments)
       })
       sandbox.stub(CLIEngine, 'outputFixes')
-      result = linter.lint('tests/cli/fixtures/fixable-error-1.js', ['--no-ignore'])
+      result = linter.lint('cli/tests/fixtures/fixable-error-1.js', ['--no-ignore'])
     })
 
     it('should not call CLIEngine.outputFixes', function () {
@@ -485,7 +485,7 @@ describe('lint-javascript', function () {
     describe('when specifying "--fix" argument', function () {
       beforeEach(function () {
         logOutput = []
-        result = linter.lint('tests/cli/fixtures/fixable-error-1.js', ['--fix', '--no-ignore'])
+        result = linter.lint('cli/tests/fixtures/fixable-error-1.js', ['--fix', '--no-ignore'])
       })
 
       it('should call CLIEngine.outputFixes', function () {
