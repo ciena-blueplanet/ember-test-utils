@@ -4,7 +4,7 @@ const glob = require('glob-all')
 const path = require('path')
 const sinon = require('sinon')
 
-const MarkdownLinter = require('../../cli/lint-markdown')
+const MarkdownLinter = require('../lint-markdown')
 
 const rootProjectFiles = [
   '.bowerrc',
@@ -42,7 +42,7 @@ describe('lint-markdown', function () {
   beforeEach(function () {
     linter = new MarkdownLinter()
     logOutput = []
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
     sandbox.stub(console, 'log').callsFake(function (text) {
       logOutput.push(text)
     })
@@ -152,11 +152,11 @@ describe('lint-markdown', function () {
 
         it('should log expected output', function () {
           expect(logOutput).to.eql([
-            '\u001b[4mtests/cli/fixtures/warn-1.md\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-1.md\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  First heading ' +
               'level should be `1`  \u001b[2mfirst-heading-level\u001b[22m',
             '',
-            '\u001b[4mtests/cli/fixtures/warn-2.md\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-2.md\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  First heading ' +
               'level should be `1`  \u001b[2mfirst-heading-level\u001b[22m',
             '',
@@ -252,11 +252,11 @@ describe('lint-markdown', function () {
 
         it('should log expected output', function () {
           expect(logOutput).to.eql([
-            '\u001b[4mtests/cli/fixtures/warn-1.md\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-1.md\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  First heading ' +
               'level should be `1`  \u001b[2mfirst-heading-level\u001b[22m',
             '',
-            '\u001b[4mtests/cli/fixtures/warn-2.md\u001b[24m',
+            '\u001b[4mcli/tests/fixtures/warn-2.md\u001b[24m',
             '  \u001b[2m1:1\u001b[22m  \u001b[33mwarning\u001b[39m  First heading ' +
               'level should be `1`  \u001b[2mfirst-heading-level\u001b[22m',
             '',

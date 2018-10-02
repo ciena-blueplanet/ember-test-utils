@@ -1,8 +1,8 @@
 /**
  * Dummy person model
  */
-import computed, {readOnly} from 'ember-computed-decorators'
 import DS from 'ember-data'
+import {computed, readOnly} from 'ember-decorators/object'
 const {Model, attr, belongsTo} = DS
 
 export default Model.extend({

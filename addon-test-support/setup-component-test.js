@@ -3,9 +3,8 @@
  */
 
 /* eslint-disable ember-standard/destructure */
-import Ember from 'ember'
+import {assign} from '@ember/polyfills'
 import {setupComponentTest} from 'ember-mocha'
-const assign = Ember.assign || Ember.merge // NOTE: only use two params in assign() since merge() doesn't take more
 
 import './typedefs'
 

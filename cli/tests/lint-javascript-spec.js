@@ -5,7 +5,7 @@ const fs = require('fs')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 
-const JavascriptLinter = require('../../cli/lint-javascript')
+const JavascriptLinter = require('../lint-javascript')
 
 chai.use(sinonChai)
 
@@ -33,7 +33,7 @@ describe('lint-javascript', function () {
   beforeEach(function () {
     linter = new JavascriptLinter()
     logOutput = []
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
 
     sandbox.stub(console, 'log').callsFake(function (text) {
       logOutput.push(text)

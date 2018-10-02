@@ -7,7 +7,7 @@ const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
-const HtmlbarsLinter = require('../../cli/lint-htmlbars')
+const HtmlbarsLinter = require('../lint-htmlbars')
 
 const stubError = {
   rule: 'the-rule',
@@ -23,7 +23,7 @@ describe('lint-htmlbars', function () {
   beforeEach(function () {
     linter = new HtmlbarsLinter()
     logOutput = []
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
     sandbox.stub(linter, 'getConfig').returns({the: 'config'})
     sandbox.stub(linter, 'printLintSummary')
     sandbox.stub(console, 'log').callsFake(function (text) {

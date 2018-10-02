@@ -2,7 +2,7 @@
  * Helper for streamlining setting up mocha tests
  */
 
-import Ember from 'ember'
+import {classify} from '@ember/string'
 import {setupModelTest, setupTest} from 'ember-mocha'
 
 import './typedefs'
@@ -27,7 +27,7 @@ export function module (name, options = {}) {
   const testType = (options.unit) ? 'Unit' : 'Integration'
   const [moduleType, moduleName] = name.split(':')
   return {
-    label: `${testType} / ${Ember.String.classify(moduleType)} / ${moduleName} /`,
+    label: `${testType} / ${classify(moduleType)} / ${moduleName} /`,
     setup () {
       deps.setupTest(name, options)
     }

@@ -2,7 +2,10 @@
  * Integration test of the mock-component helper on a the dependency-inject-component
  */
 import {expect} from 'chai'
-import {registerMockComponent, unregisterMockComponent} from 'ember-test-utils/test-support/mock-component'
+import {
+  registerMockComponent,
+  unregisterMockComponent
+} from 'ember-test-utils/test-support/mock-component'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
 import hbs from 'htmlbars-inline-precompile'
 import {afterEach, beforeEach, describe, it} from 'mocha'
