@@ -1,6 +1,4 @@
 /* eslint-env node */
-const Reporter = require('./reporter')
-
 module.exports = {
   framework: 'mocha',
   test_page: 'tests/index.html?hidepassed&coverage',
@@ -10,6 +8,5 @@ module.exports = {
   ],
   launch_in_dev: [
     'Chrome'
-  ],
-  reporter: new Reporter()
+  ]
 }

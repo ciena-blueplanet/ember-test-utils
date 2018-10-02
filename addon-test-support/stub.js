@@ -2,8 +2,9 @@
  * Module to provide helpers for stubbing things, specifically services
  */
 
-import Ember from 'ember'
-const {RSVP, Service} = Ember
+import Service from '@ember/service'
+
+import RSVP from 'rsvp'
 
 /**
  * @typedef Resolver

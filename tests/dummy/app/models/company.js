@@ -1,8 +1,8 @@
 /**
  * dummy company model
  */
-import computed, {readOnly} from 'ember-computed-decorators'
 import DS from 'ember-data'
+import {computed, readOnly} from 'ember-decorators/object'
 const {Model, attr} = DS
 
 export default Model.extend({

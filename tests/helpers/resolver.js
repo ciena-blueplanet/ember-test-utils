@@ -1,7 +1,9 @@
 import config from '../../config/environment'
 import Resolver from '../../resolver'
 
-const resolver = Resolver.create()
+const resolver = Resolver.create({
+  namespace: 'ember-test-utils'
+})
 
 resolver.namespace = {
   modulePrefix: config.modulePrefix,

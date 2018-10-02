@@ -1,5 +1,6 @@
-import Ember from 'ember'
-const {Component, getOwner, merge} = Ember
+import {getOwner} from '@ember/application'
+import Component from '@ember/component'
+import {merge} from '@ember/polyfills'
 
 /**
  * Create and register a mock component

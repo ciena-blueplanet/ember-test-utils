@@ -2,11 +2,17 @@
  * Unit test for the stub helpers
  */
 
+import {get} from '@ember/object'
+
+import Service from '@ember/service'
+
 import {expect} from 'chai'
-import Ember from 'ember'
-const {Service, get} = Ember
 import wait from 'ember-test-helpers/wait'
-import {returnPromiseFromStub, storeMethods, stubService} from 'ember-test-utils/test-support/stub'
+import {
+  returnPromiseFromStub,
+  storeMethods,
+  stubService
+} from 'ember-test-utils/test-support/stub'
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 

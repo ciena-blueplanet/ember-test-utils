@@ -7,7 +7,7 @@ const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 
-const HtmlbarsLinter = require('../../cli/lint-htmlbars')
+const HtmlbarsLinter = require('../lint-htmlbars')
 
 const stubError = {
   rule: 'the-rule',
