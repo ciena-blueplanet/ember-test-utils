@@ -1,3 +1,7 @@
+# 10.0.0 (2018-10-02)
+* **Upgraded** Ember and Ember-cli to 3.3
+
+
 # 9.0.0 (2018-09-28)
 
 * Update eslint config standard for Ember 3
