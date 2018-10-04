@@ -4,12 +4,10 @@
 import Controller from '@ember/controller'
 
 import {capitalize} from '@ember/string'
-import {computed, readOnly} from 'ember-decorators/object'
+import computed from 'ember-macro-helpers/computed'
 
 export default Controller.extend({
-  @readOnly
-  @computed('model.username')
-  name (username) {
+  name: computed('model.username', function (username) {
     return username.split('.').map((part) => capitalize(part)).join(' ')
-  }
+  }).readOnly()
 })
