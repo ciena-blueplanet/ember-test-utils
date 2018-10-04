@@ -20,7 +20,7 @@ describe(test.label, function () {
 
   describe('name()', function () {
     it('should return the name', function () {
-      expect(controller.get('name')).to.equal('Tony Stark')
+      expect(controller.name).to.equal('Tony Stark')
     })
   })
 })
