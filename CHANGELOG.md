@@ -1,3 +1,7 @@
+# 10.0.1 (2018-10-04)
+- Run codemod to convert ember-decorators to ember-macro-helpers
+- Change dependencies and babel plugins
+
 # 10.0.0 (2018-10-02)
 * **Upgraded** Ember and Ember-cli to 3.3
 
