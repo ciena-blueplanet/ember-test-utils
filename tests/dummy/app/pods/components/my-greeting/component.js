@@ -3,7 +3,7 @@
  */
 import Component from '@ember/component'
 
-import {computed, readOnly} from 'ember-decorators/object'
+import computed from 'ember-macro-helpers/computed'
 import layout from './template'
 
 export default Component.extend({
@@ -16,11 +16,9 @@ export default Component.extend({
 
   // == Computed Properties ===================================================
 
-  @readOnly
-  @computed('name')
-  greeting (name) {
+  greeting: computed('name', function (name) {
     return `Hello, ${name}`
-  },
+  }).readOnly(),
 
   // == Functions =============================================================
 
