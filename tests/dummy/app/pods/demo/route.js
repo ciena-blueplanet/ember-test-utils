@@ -7,8 +7,8 @@ export default Route.extend({
 
   model () {
     return RSVP.hash({
-      companies: this.get('store').findAll('company'),
+      companies: this.store.findAll('company'),
       username: 'tony.stark'
-    })
+    });
   }
 })
