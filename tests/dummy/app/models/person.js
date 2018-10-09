@@ -2,7 +2,7 @@
  * Dummy person model
  */
 import DS from 'ember-data'
-import {computed, readOnly} from 'ember-decorators/object'
+import computed from 'ember-macro-helpers/computed'
 const {Model, attr, belongsTo} = DS
 
 export default Model.extend({
@@ -10,9 +10,7 @@ export default Model.extend({
   firstName: attr('string'),
   lastName: attr('string'),
 
-  @readOnly
-  @computed('firstName', 'lastName')
-  fullName (firstName, lastName) {
+  fullName: computed('firstName', 'lastName', function (firstName, lastName) {
     return `${firstName} ${lastName}`
-  }
+  }).readOnly()
 })
