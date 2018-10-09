@@ -20,7 +20,7 @@ import sinon from 'sinon'
 describe('setupTest()', function () {
   let sandbox
   beforeEach(function () {
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
     sandbox.stub(deps, 'setupTest')
   })
 

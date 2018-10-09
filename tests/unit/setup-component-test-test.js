@@ -10,7 +10,7 @@ import sinon from 'sinon'
 describe('setupComponentTest()', function () {
   let sandbox
   beforeEach(function () {
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
     sandbox.stub(deps, 'setupRenderingTest')
     sandbox.stub(deps, 'setupTest')
   })

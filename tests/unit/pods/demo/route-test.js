@@ -13,7 +13,7 @@ describe(test.label, function () {
 
   let route, sandbox, store, resolver
   beforeEach(function () {
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
     store = stubService(this, sandbox, 'store')
     route = context.subject.call(this)
   })
