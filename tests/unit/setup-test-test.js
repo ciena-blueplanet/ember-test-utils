@@ -21,7 +21,6 @@ describe('setupTest()', function () {
   let sandbox
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
-    sandbox.stub(deps, 'setupModelTest')
     sandbox.stub(deps, 'setupTest')
   })
 
@@ -46,7 +45,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('foo:my-bar', {unit: true})
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -68,10 +67,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('foo:my-bar', {
-            needs: ['component:foo-bar', 'helper:baz'],
-            unit: true
-          })
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -93,8 +89,8 @@ describe('setupTest()', function () {
           test.setup()
         })
 
-        it('should call setupModelTest() with proper args', function () {
-          expect(deps.setupModelTest).to.have.been.calledWith('my-bar', {unit: true})
+        it('should call setupTest() with proper args', function () {
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -115,11 +111,8 @@ describe('setupTest()', function () {
           test.setup()
         })
 
-        it('should call setupModelTest() with proper args', function () {
-          expect(deps.setupModelTest).to.have.been.calledWith('my-bar', {
-            needs: ['component:foo-bar', 'helper:baz'],
-            unit: true
-          })
+        it('should call setupTest() with proper args', function () {
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -141,8 +134,8 @@ describe('setupTest()', function () {
           test.setup()
         })
 
-        it('should call setupModelTest() with proper args', function () {
-          expect(deps.setupModelTest).to.have.been.calledWith('my-bar', {needs: ['serializer:my-bar'], unit: true})
+        it('should call setupTest() with proper args', function () {
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -161,11 +154,8 @@ describe('setupTest()', function () {
           test.setup()
         })
 
-        it('should call setupModelTest() with proper args', function () {
-          expect(deps.setupModelTest).to.have.been.calledWith('my-bar', {
-            needs: ['component:foo-bar', 'helper:baz', 'serializer:my-bar'],
-            unit: true
-          })
+        it('should call setupTest() with proper args', function () {
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -188,7 +178,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('route:my-bar', {unit: true})
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -210,10 +200,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('route:my-bar', {
-            needs: ['component:foo-bar', 'helper:baz'],
-            unit: true
-          })
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -236,7 +223,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('controller:my-bar', {unit: true})
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -258,10 +245,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('controller:my-bar', {
-            needs: ['component:foo-bar', 'helper:baz'],
-            unit: true
-          })
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -284,7 +268,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('service:my-bar', {unit: true})
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -306,10 +290,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('service:my-bar', {
-            needs: ['component:foo-bar', 'helper:baz'],
-            unit: true
-          })
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -332,7 +313,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('adapter:my-bar', {unit: true})
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -354,10 +335,7 @@ describe('setupTest()', function () {
         })
 
         it('should call setupTest() with proper args', function () {
-          expect(deps.setupTest).to.have.been.calledWith('adapter:my-bar', {
-            needs: ['component:foo-bar', 'helper:baz'],
-            unit: true
-          })
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -372,71 +350,6 @@ describe('setupTest()', function () {
 
       it('should create proper describe label', function () {
         expect(test.label).to.equal('Unit / Helper / my-bar /')
-      })
-      describe('when .setup() is called', function () {
-        beforeEach(function () {
-          test.setup()
-        })
-
-        describe('should call setupTest with proper args', function () {
-          it('should pass the proper module name', function () {
-            expect(deps.setupTest.getCall(0).args[0]).to.equal('helper:my-bar')
-          })
-
-          it('should specify unit as true', function () {
-            expect(deps.setupTest.getCall(0).args[1].unit).to.equal(true)
-          })
-
-          it('should override subject to return the helper', function () {
-            const factory = {
-              compute: sandbox.spy()
-            }
-            expect(deps.setupTest.getCall(0).args[1].subject({}, factory)).to.equal(factory.compute)
-          })
-        })
-      })
-    })
-
-    describe('when dependencies are given', function () {
-      let needs
-      beforeEach(function () {
-        needs = ['component:foo-bar', 'helper:baz']
-        test = helper('my-bar', needs)
-      })
-
-      it('should create proper describe label', function () {
-        expect(test.label).to.equal('Unit / Helper / my-bar /')
-      })
-
-      describe('when .setup() is called', function () {
-        beforeEach(function () {
-          test.setup()
-        })
-
-        describe('should call setupTest with proper args', function () {
-          it('should pass the proper module name', function () {
-            expect(deps.setupTest.getCall(0).args[0]).to.equal('helper:my-bar')
-          })
-
-          it('should pass in dependencies', function () {
-            expect(deps.setupTest.getCall(0).args[1].needs).to.eql(['component:foo-bar', 'helper:baz'])
-          })
-
-          it('should specify unit as true', function () {
-            expect(deps.setupTest.getCall(0).args[1].unit).to.equal(true)
-          })
-
-          it('should specify subject', function () {
-            expect(deps.setupTest.getCall(0).args[1].subject).not.to.equal(undefined)
-          })
-
-          it('should override subject to return the helper', function () {
-            const factory = {
-              compute: sandbox.spy()
-            }
-            expect(deps.setupTest.getCall(0).args[1].subject({}, factory)).to.equal(factory.compute)
-          })
-        })
       })
     })
   })

@@ -7,12 +7,11 @@ import {beforeEach, describe, it} from 'mocha'
 
 const test = unit('my-greeting')
 describe(test.label, function () {
-  test.setup()
-
+  const context = test.setup()
   let component
 
   beforeEach(function () {
-    component = this.subject({
+    component = context.subject.call(this, {
       name: 'John'
     })
   })

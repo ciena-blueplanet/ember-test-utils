@@ -11,7 +11,8 @@ describe('setupComponentTest()', function () {
   let sandbox
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
-    sandbox.stub(deps, 'setupComponentTest')
+    sandbox.stub(deps, 'setupRenderingTest')
+    sandbox.stub(deps, 'setupTest')
   })
 
   afterEach(function () {
@@ -31,11 +32,11 @@ describe('setupComponentTest()', function () {
 
       describe('when .setup() is called', function () {
         beforeEach(function () {
-          test.setup()
+          test.setup(this)
         })
 
-        it('should call setupComponentTest() with proper args', function () {
-          expect(deps.setupComponentTest).to.have.been.calledWith('my-component', {unit: true})
+        it('should call setupTest() once', function () {
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -53,14 +54,11 @@ describe('setupComponentTest()', function () {
 
       describe('when .setup() is called', function () {
         beforeEach(function () {
-          test.setup()
+          test.setup(this)
         })
 
-        it('should call setupComponentTest() with proper args', function () {
-          expect(deps.setupComponentTest).to.have.been.calledWith('my-component', {
-            needs: ['component:foo-bar', 'helper:baz'],
-            unit: true
-          })
+        it('should call setupTest() once', function () {
+          expect(deps.setupTest).to.have.been.calledWith()
         })
       })
     })
@@ -81,8 +79,8 @@ describe('setupComponentTest()', function () {
         test.setup()
       })
 
-      it('should call setupComponentTest() with proper args', function () {
-        expect(deps.setupComponentTest).to.have.been.calledWith('my-component', {integration: true})
+      it('should call setupRenderingTest() with proper args', function () {
+        expect(deps.setupRenderingTest).to.have.been.calledWith()
       })
     })
   })
