@@ -40,8 +40,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@ember-decorators/babel-transforms": "^2.1.1",
-    "babel-plugin-transform-decorators": "^6.24.1",
     "bower": "^1.8.2",
     "broccoli-asset-rev": "^2.7.0",
     "ember-cli": "~3.3.0",
@@ -55,7 +53,6 @@
     "ember-cli-shims": "^1.2.0",
     "ember-cli-uglify": "^2.0.0",
     "ember-data": "~3.3.0",
-    "ember-decorators": "^1.3.4",
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.1.0",
