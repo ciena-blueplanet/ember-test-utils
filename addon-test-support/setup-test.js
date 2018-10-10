@@ -3,14 +3,93 @@
  */
 
 import {classify} from '@ember/string'
-import {setupModelTest, setupTest} from 'ember-mocha'
+import {setupTest} from 'ember-mocha'
 
 import './typedefs'
 
 // Workaround to allow stubbing dependencies during testing
 export const deps = {
-  setupModelTest,
   setupTest
+}
+
+/**
+ * Create test subject for Module type
+ * @param {String} name - the name of the Module
+ * @returns {Test} test context object with a subject method
+ */
+export function createTestContextForModule (name) {
+  return {
+    subject (options = {}, nameOverrides) {
+      if (!this.owner) {
+        console.error('Make sure you have run setup() before trying to access subject.')
+      }
+
+      const subject = this.owner.lookup(nameOverrides || name)
+
+      Object.keys(options).forEach(key => {
+        subject.set(key, options[key])
+      })
+
+      return subject
+    }
+  }
+}
+
+/**
+ * Create test subject for Model type
+ * @param {String} name - the name of the Model
+ * @returns {Test} test context object with a subject method
+ */
+export function createTestContextForModel (name) {
+  return {
+    subject (options = {}, nameOverrides) {
+      if (!this.owner) {
+        console.error('Make sure you have run setup() before trying to access subject.')
+      }
+
+      const subject = this.owner.lookup('service:store').createRecord(nameOverrides || name, options)
+
+      return subject
+    }
+  }
+}
+
+/**
+ * Create test subject for Serializer type
+ * @param {String} name - the name of the Serializer
+ * @returns {Test} test context object with a subject method
+ */
+export function createTestContextForSerializer (name) {
+  return {
+    subject (options = {}, nameOverrides) {
+      if (!this.owner) {
+        console.error('Make sure you have run setup() before trying to access subject.')
+      }
+
+      this.owner.lookup('service:store').createRecord(nameOverrides || name, options)
+
+      return this.owner.lookup(`serializer:${name}`)
+    }
+  }
+}
+
+/**
+ * Create test subject for Adapter type
+ * @param {String} name - the name of the Serializer
+ * @returns {Test} test context object with a subject method
+ */
+export function createTestContextForAdapter (name) {
+  return {
+    subject (options = {}, nameOverrides) {
+      if (!this.owner) {
+        console.error('Make sure you have run setup() before trying to access subject.')
+      }
+
+      this.owner.lookup('service:store').createRecord(nameOverrides || name, options)
+
+      return this.owner.lookup(`adapter:${name}`)
+    }
+  }
 }
 
 /**
@@ -29,7 +108,8 @@ export function module (name, options = {}) {
   return {
     label: `${testType} / ${classify(moduleType)} / ${moduleName} /`,
     setup () {
-      deps.setupTest(name, options)
+      deps.setupTest()
+      return createTestContextForModule(name)
     }
   }
 }
@@ -37,15 +117,10 @@ export function module (name, options = {}) {
 /**
  * A helper for formatting the describe text and calling setupTest with proper parameters for a model unit test
  * @param {String} name - the name of the model
- * @param {String[]} dependencies - the list of "needs" for this model
  * @param {Object} options - any additional options to set (alongside unit: true)
  * @returns {Test} a test config object
  */
-export function model (name, dependencies, options = {}) {
-  if (dependencies) {
-    options.needs = dependencies
-  }
-
+export function model (name, options = {}) {
   if (!options.unit && !options.integration) {
     options.unit = true
   }
@@ -54,7 +129,8 @@ export function model (name, dependencies, options = {}) {
   return {
     label: `${testType} / Model / ${name} /`,
     setup () {
-      deps.setupModelTest(name, options)
+      deps.setupTest()
+      return createTestContextForModel(name)
     }
   }
 }
@@ -62,19 +138,10 @@ export function model (name, dependencies, options = {}) {
 /**
  * A helper for formatting the describe text and calling setupTest with proper parameters for a serializer unit test
  * @param {String} name - the name of the serializer
- * @param {String[]} dependencies - the list of "needs" for this serializer
  * @param {Object} options - any additional options to set (alongside unit: true)
  * @returns {Test} a test config object
  */
-export function serializer (name, dependencies = [], options = {}) {
-  options.needs = dependencies
-
-  // if the serializer isn't a dependency, add it, this is b/c we're using setupModelTest() so the model is already
-  // going to be loaded as the primary element under test, not the serializer, so we need to add the serializer
-  if (!options.needs.includes(`serializer:${name}`)) {
-    options.needs.push(`serializer:${name}`)
-  }
-
+export function serializer (name, options = {}) {
   if (!options.unit && !options.integration) {
     options.unit = true
   }
@@ -83,7 +150,29 @@ export function serializer (name, dependencies = [], options = {}) {
   return {
     label: `${testType} / Serializer / ${name} /`,
     setup () {
-      deps.setupModelTest(name, options)
+      deps.setupTest()
+      return createTestContextForSerializer(name)
+    }
+  }
+}
+
+/**
+ * A helper for formatting the describe text and calling setupTest with proper parameters for an adapter unit test
+ * @param {String} name - the name of the adapter
+ * @param {Object} options - any additional options to set (alongside unit: true)
+ * @returns {Test} a test config object
+ */
+export function adapter (name, options = {}) {
+  if (!options.unit && !options.integration) {
+    options.unit = true
+  }
+
+  const testType = (options.unit) ? 'Unit' : 'Integration'
+  return {
+    label: `${testType} / Adapter / ${name} /`,
+    setup () {
+      deps.setupTest()
+      return createTestContextForAdapter(name)
     }
   }
 }
@@ -91,70 +180,40 @@ export function serializer (name, dependencies = [], options = {}) {
 /**
  * A helper for formatting the describe text and calling setupTest with proper parameters for a route unit test
  * @param {String} name - the name of the route
- * @param {String[]} dependencies - the list of "needs" for this route
  * @param {Object} options - any additional options to set (alongside unit: true)
  * @returns {Test} a test config object
  */
-export function route (name, dependencies, options = {}) {
-  if (dependencies) {
-    options.needs = dependencies
-  }
+export function route (name, options = {}) {
   return module(`route:${name}`, options)
 }
 
 /**
  * A helper for formatting the describe text and calling setupTest with proper parameters for a controller unit test
  * @param {String} name - the name of the controller
- * @param {String[]} dependencies - the list of "needs" for this controller
  * @param {Object} options - any additional options to set (alongside unit: true)
  * @returns {Test} a test config object
  */
-export function controller (name, dependencies, options = {}) {
-  if (dependencies) {
-    options.needs = dependencies
-  }
+export function controller (name, options = {}) {
   return module(`controller:${name}`, options)
 }
 
 /**
  * A helper for formatting the describe text and calling setupTest with proper parameters for a service unit test
  * @param {String} name - the name of the service
- * @param {String[]} dependencies - the list of "needs" for this service
  * @param {Object} options - any additional options to set (alongside unit: true)
  * @returns {Test} a test config object
  */
-export function service (name, dependencies, options = {}) {
-  if (dependencies) {
-    options.needs = dependencies
-  }
+export function service (name, options = {}) {
   return module(`service:${name}`, options)
-}
-
-/**
- * A helper for formatting the describe text and calling setupTest with proper parameters for an adapter unit test
- * @param {String} name - the name of the adapter
- * @param {String[]} dependencies - the list of "needs" for this adapter
- * @param {Object} options - any additional options to set (alongside unit: true)
- * @returns {Test} a test config object
- */
-export function adapter (name, dependencies, options = {}) {
-  if (dependencies) {
-    options.needs = dependencies
-  }
-  return module(`adapter:${name}`, options)
 }
 
 /**
  * A helper for formatting the describe text and calling setupTest with proper parameters for a helper unit test
  * @param {String} name - the name of the helper
- * @param {String[]} dependencies - the list of "needs" for this helper
  * @param {Object} options - any additional options to set (alongside unit: true)
  * @returns {Test} a test config object
  */
-export function helper (name, dependencies, options = {}) {
-  if (dependencies) {
-    options.needs = dependencies
-  }
+export function helper (name, options = {}) {
   // defaultSubject assumes this is a instantiable object but helpers are not
   options.subject = function (options, factory) {
     return factory.compute

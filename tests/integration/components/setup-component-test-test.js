@@ -13,7 +13,7 @@ describe(test.label, function () {
   describe('when rendereed', function () {
     beforeEach(function () {
       this.set('name', 'Paul')
-      this.render(hbs`{{my-greeting name=name}}`)
+      return this.render(hbs`{{my-greeting name=name}}`)
     })
 
     it('should render an <h2> tag', function () {

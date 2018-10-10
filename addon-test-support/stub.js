@@ -79,8 +79,10 @@ export function stubService (context, sandbox, name, methodsToStub) {
   })
 
   const service = Service.extend(stubs)
-  context.register(`service:${name}`, service)
-  return context.container.lookup(`service:${name}`)
+  context.owner.unregister(`service:${name}`)
+  context.owner.register(`service:${name}`, service)
+
+  return context.owner.lookup(`service:${name}`)
 }
 
 /**

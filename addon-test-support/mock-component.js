@@ -1,4 +1,3 @@
-import {getOwner} from '@ember/application'
 import Component from '@ember/component'
 import {merge} from '@ember/polyfills'
 
@@ -10,7 +9,7 @@ import {merge} from '@ember/polyfills'
  * @returns {undefined}
  */
 export function registerMockComponent (context, name = 'mock-component', opts = {}) {
-  const owner = getOwner(context)
+  const owner = context.owner
   const options = merge({tagName: 'dummy'}, opts)
   const mockComponent = Component.extend(options)
 
@@ -25,7 +24,7 @@ export function registerMockComponent (context, name = 'mock-component', opts = 
  * @returns {undefined}
  */
 export function unregisterMockComponent (context, name = 'mock-component') {
-  const owner = getOwner(context)
+  const owner = context.owner
 
   if (owner.resolveRegistration(`component:${name}`)) {
     owner.unregister(`component:${name}`)

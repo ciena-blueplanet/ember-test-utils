@@ -19,7 +19,7 @@ import sinon from 'sinon'
 describe('Unit / utils / stub /', function () {
   let sandbox
   beforeEach(function () {
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
   })
 
   afterEach(function () {
@@ -30,10 +30,11 @@ describe('Unit / utils / stub /', function () {
     let context, sbox, result
     beforeEach(function () {
       context = {
-        container: {
+        owner: {
+          register: sandbox.stub(),
+          unregister: sandbox.stub(),
           lookup: sandbox.stub().returns('the-service')
-        },
-        register: sandbox.stub()
+        }
       }
       sbox = {
         stub: sandbox.stub().returns('a-stub')
@@ -46,11 +47,11 @@ describe('Unit / utils / stub /', function () {
       })
 
       it('should register the store', function () {
-        expect(context.register).to.have.been.calledWith('service:store', sinon.match.any)
+        expect(context.owner.register).to.have.been.calledWith('service:store', sinon.match.any)
       })
 
       it('should lookup the service after stubbing it', function () {
-        expect(context.container.lookup).to.have.been.calledWith('service:store')
+        expect(context.owner.lookup).to.have.been.calledWith('service:store')
       })
 
       it('should return the result of the lookup', function () {
@@ -60,7 +61,7 @@ describe('Unit / utils / stub /', function () {
       describe('the stubbed service', function () {
         let service
         beforeEach(function () {
-          service = context.register.lastCall.args[1]
+          service = context.owner.register.lastCall.args[1]
         })
 
         it('should extend Service', function () {
@@ -82,11 +83,11 @@ describe('Unit / utils / stub /', function () {
       })
 
       it('should register the store', function () {
-        expect(context.register).to.have.been.calledWith('service:fizz-bang', sinon.match.any)
+        expect(context.owner.register).to.have.been.calledWith('service:fizz-bang', sinon.match.any)
       })
 
       it('should lookup the service after stubbing it', function () {
-        expect(context.container.lookup).to.have.been.calledWith('service:fizz-bang')
+        expect(context.owner.lookup).to.have.been.calledWith('service:fizz-bang')
       })
 
       it('should return the result of the lookup', function () {
@@ -96,7 +97,7 @@ describe('Unit / utils / stub /', function () {
       describe('the stubbed service', function () {
         let service
         beforeEach(function () {
-          service = context.register.lastCall.args[1]
+          service = context.owner.register.lastCall.args[1]
         })
 
         it('should extend Service', function () {

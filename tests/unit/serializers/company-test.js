@@ -1,24 +1,22 @@
-/**
- * Unit test for the company model
- */
 import {expect} from 'chai'
-import {model} from 'ember-test-utils/test-support/setup-test'
+import {serializer} from 'ember-test-utils/test-support/setup-test'
 import {describe, it} from 'mocha'
 
-const test = model('company')
+const test = serializer('company')
 describe(test.label, function () {
   const context = test.setup()
 
   describe('address()', function () {
-    let model
+    let serializer
     it('should combine all the address pieces', function () {
-      model = context.subject.call(this, {
+      serializer = context.subject.call(this, {
         street: '123 Main Street',
         city: 'Smallville',
         state: 'KA',
         zip: '12345'
       })
-      expect(model.get('address')).to.equal('123 Main Street\nSmallville, KA 12345')
+
+      expect(serializer.normalizeSingleResponse({}, {}, {}, '1', 'GET')).to.eql({extraKey: 'extraKey'})
     })
   })
 })

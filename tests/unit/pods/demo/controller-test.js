@@ -7,11 +7,11 @@ import {beforeEach, describe, it} from 'mocha'
 
 const test = controller('demo')
 describe(test.label, function () {
-  test.setup()
+  const context = test.setup()
 
   let controller
   beforeEach(function () {
-    controller = this.subject({
+    controller = context.subject.call(this, {
       model: {
         username: 'tony.stark'
       }

@@ -18,7 +18,7 @@ describe(test.label, function () {
     beforeEach(function () {
       registerMockComponent(this)
 
-      this.render(hbs`
+      return this.render(hbs`
         {{dependency-inject-component
           injectComponent=(component 'mock-component')
         }}
@@ -38,7 +38,7 @@ describe(test.label, function () {
     beforeEach(function () {
       registerMockComponent(this, 'mock-inject')
 
-      this.render(hbs`
+      return this.render(hbs`
         {{dependency-inject-component
           injectComponent=(component 'mock-inject')
         }}
@@ -60,7 +60,7 @@ describe(test.label, function () {
         classNames: 'mock-inject'
       })
 
-      this.render(hbs`
+      return this.render(hbs`
         {{dependency-inject-component
           injectComponent=(component 'mock-inject')
         }}
@@ -86,7 +86,7 @@ describe(test.label, function () {
         `
       })
 
-      this.render(hbs`
+      return this.render(hbs`
         {{dependency-inject-component
           injectComponent=(component 'mock-inject')
         }}

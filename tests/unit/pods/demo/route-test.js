@@ -9,13 +9,13 @@ import sinon from 'sinon'
 
 const test = route('demo', ['model:company'])
 describe(test.label, function () {
-  test.setup()
+  const context = test.setup()
 
   let route, sandbox, store, resolver
   beforeEach(function () {
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
     store = stubService(this, sandbox, 'store')
-    route = this.subject()
+    route = context.subject.call(this)
   })
 
   describe('.model()', function () {

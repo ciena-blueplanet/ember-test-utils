@@ -33,7 +33,7 @@ describe('lint-javascript', function () {
   beforeEach(function () {
     linter = new JavascriptLinter()
     logOutput = []
-    sandbox = sinon.sandbox.create()
+    sandbox = sinon.createSandbox()
 
     sandbox.stub(console, 'log').callsFake(function (text) {
       logOutput.push(text)

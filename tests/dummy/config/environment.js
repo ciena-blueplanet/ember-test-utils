@@ -33,6 +33,7 @@ module.exports = function (environment) {
   }
 
   if (environment === 'test') {
+    ENV.APP.autoboot = false
     // Testem prefers this...
     ENV.rootURL = '/'
     ENV.locationType = 'none'
