@@ -1,3 +1,8 @@
+# 9.1.0 (2019-02-27)
+
+* Upgrade eslint-plugin-ember-standard
+
+
 # 10.0.1 (2018-10-04)
 - Run codemod to convert ember-decorators to ember-macro-helpers
 - Change dependencies and babel plugins
