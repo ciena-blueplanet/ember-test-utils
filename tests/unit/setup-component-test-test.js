@@ -7,7 +7,7 @@ import {deps, integration, unit} from 'ember-test-utils/test-support/setup-compo
 import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
-describe('setupComponentTest()', function () {
+describe('Unit / setupComponentTest()', function () {
   let sandbox
   beforeEach(function () {
     sandbox = sinon.createSandbox()
@@ -17,6 +17,7 @@ describe('setupComponentTest()', function () {
 
   afterEach(function () {
     sandbox.restore()
+    sandbox = null
   })
 
   describe('unit()', function () {
@@ -24,28 +25,6 @@ describe('setupComponentTest()', function () {
     describe('when just name is given', function () {
       beforeEach(function () {
         test = unit('my-component')
-      })
-
-      it('should create proper describe label', function () {
-        expect(test.label).to.equal('Unit / Component / my-component /')
-      })
-
-      describe('when .setup() is called', function () {
-        beforeEach(function () {
-          test.setup(this)
-        })
-
-        it('should call setupTest() once', function () {
-          expect(deps.setupTest).to.have.been.calledWith()
-        })
-      })
-    })
-
-    describe('when dependencies are given', function () {
-      let needs
-      beforeEach(function () {
-        needs = ['component:foo-bar', 'helper:baz']
-        test = unit('my-component', needs)
       })
 
       it('should create proper describe label', function () {

@@ -4,7 +4,7 @@
 
 import {expect} from 'chai'
 import {callAction} from 'ember-test-utils/test-support/actions'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 describe('Unit / utils / actions /', function () {
   let object, context, actionArgs, ret
@@ -20,6 +20,13 @@ describe('Unit / utils / actions /', function () {
     }
 
     ret = callAction(object, 'fizzBang')
+  })
+
+  afterEach(function () {
+    object = null
+    context = null
+    actionArgs = null
+    ret = null
   })
 
   describe('when called w/o arguments', function () {

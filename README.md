@@ -29,7 +29,7 @@ ember install ember-test-utils
 ## Getting Started
 
 **ember-test-utils** provides a set of utilities to help you in testing Ember modules. This library requires you
-use `ember-cli-mocha` and `ember-mocha` as your testing framework. It provides shortcuts for working with:
+use `ember-mocha` as your testing framework. It provides shortcuts for working with:
 
  * [`setupComponentTest`](#setupcomponenttest)
  * [`setupTest`](#setuptest)
@@ -44,17 +44,19 @@ Provided test helpers:
 Two shortcuts (`integration`, and `unit`) are provided to help transform
 
 ```js
+import {render} from '@ember/test-helpers'
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
+import {setupRenderingTest} from 'ember-mocha'
 import hbs from 'htmlbars-inline-precompile'
 import {describe, it} from 'mocha'
 
-describe('Integration: MyGreetingComponent', function () {
-  setupComponentTest('my-greeting', {integration: true})
-  it('renders', function () {
+describe('Integration / MyGreetingComponent', function () {
+  setupRenderingTest()
+
+  it('renders', async function () {
     this.set('name', 'John')
-    this.render(hbs`{{my-greeting name=name}}`)
-    expect(this.$()).to.have.length(1)
+    await render(hbs`{{my-greeting name=name}}`)
+    expect(this.element).to.not.equal(undefined)
   })
 })
 ```
@@ -62,20 +64,20 @@ describe('Integration: MyGreetingComponent', function () {
 into
 
 ```js
+import {render} from '@ember/test-helpers'
 import {expect} from 'chai'
 import hbs from 'htmlbars-inline-precompile'
 import {describe, it} from 'mocha'
-
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
 
 const test = integration('my-greeting')
 describe(test.label, function () {
   test.setup()
 
-  it('renders', function () {
+  it('should render', async function () {
     this.set('name', 'John')
-    this.render(hbs`{{my-greeting name=name}}`)
-    expect(this.$()).to.have.length(1)
+    await render(hbs`{{my-greeting name=name}}`)
+    expect(this.element).to.not.equal(undefined)
   })
 })
 ```
@@ -84,23 +86,17 @@ and
 
 ```js
 import {expect} from 'chai'
-import {setupComponentTest} from 'ember-mocha'
+import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
-describe('Unit: MyGreetingComponent', function () {
-  setupComponentTest('my-greeting', {
-    needs: ['component:foo', 'helper:bar'],
-    unit: true
-  })
+describe('Unit / MyGreetingComponent', function () {
+  setupTest()
 
-  it('renders', function () {
+  it('should exist', async function () {
     // creates the component instance
-    let component = this.subject()
+    let component = this.owner.__container__.factoryFor('component:my-greeting').create()
 
-    // renders the component on the page
-    this.render()
     expect(component).not.to.equal(undefined)
-    expect(this.$()).to.have.length(1)
   })
 })
 ```
@@ -113,16 +109,13 @@ import {describe, it} from 'mocha'
 import {unit} from 'ember-test-utils/test-support/setup-component-test'
 
 const test = unit('my-greeting', ['component:foo', 'helper:bar'])
-  test.setup()
+  context = test.setup()
 
-  it('renders', function () {
+  it('should exist', function () {
     // creates the component instance
-    let component = this.subject()
+    let component = context.subject.call(this)
 
-    // renders the component on the page
-    this.render()
     expect(component).not.to.equal(undefined)
-    expect(this.$()).to.have.length(1)
   })
 })
 ```
@@ -148,13 +141,11 @@ import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
 describe('DemoAdapter', function () {
-  setupTest('adapter:demo', {
-    needs: ['adapter:foo'],
-    unit: true
-  })
+  setupTest()
+
   // Replace this with your real tests.
   it('exists', function () {
-    let adapter = this.subject()
+    const adapter = this.owner.lookup(`adapter:demo`)
     expect(adapter).not.to.equal(undefined)
   })
 })
@@ -189,13 +180,11 @@ import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
 describe('DemoController', function () {
-  setupTest('controller:demo', {
-    needs: ['controller:foo'],
-    unit: true
-  })
+  setupTest()
+
   // Replace this with your real tests.
   it('exists', function () {
-    let controller = this.subject()
+    let controller = this.owner.lookup('controller:demo')
     expect(controller).not.to.equal(undefined)
   })
 })
@@ -209,7 +198,7 @@ import {describe, it} from 'mocha'
 
 import {controller} from 'ember-test-utils/test-support/setup-test'
 
-const test = controller('demo', ['controller:foo'])
+const test = controller('demo')
 describe(test.label, function () {
   test.setup()
 
@@ -230,12 +219,11 @@ import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
 describe('DemoHelper', function () {
-  setupTest('helper:demo', {
-    unit: true
-  })
+  setupTest()
+
   // Replace this with your real tests.
   it('exists', function () {
-    let helper = this.subject()
+    let helper = this.owner.lookup('helper:demo')
     expect(helper).not.to.equal(undefined)
   })
 })
@@ -270,13 +258,10 @@ import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
 describe('Unit: PersonModel', function () {
-  setupModelTest('person', {
-    unit: true,
-    needs: ['model:company']
-  })
+  setupTest()
 
   it('exists', function () {
-    let model = this.subject()
+    let model = this.owner.lookup('model:person')
     expect(model).not.to.equal(undefined)
   })
 })
@@ -290,7 +275,7 @@ import {describe, it} from 'mocha'
 
 import {model} from 'ember-test-utils/test-support/setup-test'
 
-const test = model('person', ['model:company'])
+const test = model('person')
 describe(test.label, function () {
   test.setup()
 
@@ -310,13 +295,11 @@ import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
 describe('DemoController', function () {
-  setupTest('controller:demo', {
-    needs: ['controller:foo'],
-    unit: true
-  })
+  setupTest()
+
   // Replace this with your real tests.
   it('exists', function () {
-    let controller = this.subject()
+    let controller = this.subject('controller:demo')
     expect(controller).not.to.equal(undefined)
   })
 })
@@ -327,10 +310,9 @@ into
 ```js
 import {expect} from 'chai'
 import {describe, it} from 'mocha'
-
 import {module} from 'ember-test-utils/test-support/setup-test'
 
-const test = module('controller:demo', ['controller:foo'])
+const test = module('controller:demo')
 describe(test.label, function () {
   test.setup()
 
@@ -351,13 +333,11 @@ import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
 describe('DemoController', function () {
-  setupTest('route:demo', {
-    needs: ['controller:demo'],
-    unit: true
-  })
+  setupTest()
+
   // Replace this with your real tests.
   it('exists', function () {
-    let route = this.subject()
+    let route = this.owner.lookup('route:demo')
     expect(route).not.to.equal(undefined)
   })
 })
@@ -371,7 +351,7 @@ import {describe, it} from 'mocha'
 
 import {route} from 'ember-test-utils/test-support/setup-test'
 
-const test = route('demo', ['controller:demo'])
+const test = route('demo')
 describe(test.label, function () {
   test.setup()
 
@@ -405,13 +385,11 @@ import {setupTest} from 'ember-mocha'
 import {describe, it} from 'mocha'
 
 describe('DemoService', function () {
-  setupTest('service:demo', {
-    needs: ['service:foo'],
-    unit: true
-  })
+  setupTest()
+
   // Replace this with your real tests.
   it('exists', function () {
-    let service = this.subject()
+    let service = this.owner.lookup('service:demo')
     expect(service).not.to.equal(undefined)
   })
 })
@@ -425,7 +403,7 @@ import {describe, it} from 'mocha'
 
 import {service} from 'ember-test-utils/test-support/setup-test'
 
-const test = service('demo', ['service:foo'])
+const test = service('demo')
 describe(test.label, function () {
   test.setup()
 
@@ -452,6 +430,7 @@ Credit goes to [poteto](https://twitter.com/sugarpirate_) for the initial implem
 ```
 
 ```js
+import {render} from '@ember/test-helpers'
 import {expect} from 'chai'
 import {registerMockComponent, unregisterMockComponent} from 'ember-test-utils/test-support/mock-component'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
@@ -462,10 +441,10 @@ const test = integration('demo-component')
 describe(test.label, function () {
   test.setup()
 
-  beforeEach(function () {
+  beforeEach(async function () {
     registerMockComponent(this)
 
-    this.render(hbs`
+    await render(hbs`
       {{demo-component
         injectComponent=(component 'mock-component')
       }}
@@ -477,7 +456,7 @@ describe(test.label, function () {
   })
 
   it('should render the injectComponent with default name', function () {
-    expect(this.$('dummy')).to.have.length(1)
+    expect(this.element).to.not.equal(undefined)
   })
 })
 ```
@@ -485,6 +464,7 @@ describe(test.label, function () {
 or with a user provided `name` and `options: {}`
 
 ```js
+import {render} from '@ember/test-helpers'
 import {expect} from 'chai'
 import {registerMockComponent, unregisterMockComponent} from 'ember-test-utils/test-support/mock-component'
 import {integration} from 'ember-test-utils/test-support/setup-component-test'
@@ -495,7 +475,7 @@ const test = integration('demo-component')
 describe(test.label, function () {
   test.setup()
 
-  beforeEach(function () {
+  beforeEach(async function () {
     registerMockComponent(this, 'mock-inject', {
       classNames: 'mock-inject',
       title: 'My Title',
@@ -504,7 +484,7 @@ describe(test.label, function () {
       `
     })
 
-    this.render(hbs`
+    await render(hbs`
       {{demo-component
         injectComponent=(component 'mock-inject')
       }}
@@ -516,7 +496,7 @@ describe(test.label, function () {
   })
 
   it('should render the injectComponent with provided layout', function () {
-    expect(this.$('.mock-inject').text().trim()).to.equal('My Title')
+    expect(this.element.querySelector('.mock-inject').textContent).to.equal('My Title')
   })
 })
 ```
@@ -536,7 +516,7 @@ import sinon from 'sinon'
 const test = route('demo', ['model:demo-user'])
 describe(test.label, function () {
   test.setup()
-  let route, sandbox, store
+  let route, sandbox, store, params
   beforeEach(function () {
     sandbox = sinon.sandbox.create()
     store = stubService(this, sandbox, 'store')
@@ -545,10 +525,13 @@ describe(test.label, function () {
 
   afterEach(function () {
     sandbox.restore()
+    sandbox = null
+    route = null
+    store = null
+    params = null
   })
 
   describe('model()', function () {
-    let params
     describe('when you set some properties', function () {
       beforeEach(function () {
         params = {

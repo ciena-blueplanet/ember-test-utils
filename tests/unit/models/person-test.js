@@ -3,7 +3,7 @@
  */
 import {expect} from 'chai'
 import {model} from 'ember-test-utils/test-support/setup-test'
-import {describe, it} from 'mocha'
+import {afterEach, describe, it} from 'mocha'
 
 const test = model('person', ['model:company'])
 describe(test.label, function () {
@@ -11,6 +11,12 @@ describe(test.label, function () {
 
   describe('fullName()', function () {
     let person, company
+
+    afterEach(function () {
+      person = null
+      company = null
+    })
+
     it('should combine first and last name', function () {
       person = context.subject.call(this, {
         firstName: 'John',

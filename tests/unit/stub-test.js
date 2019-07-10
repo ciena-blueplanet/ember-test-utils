@@ -3,11 +3,9 @@
  */
 
 import {get} from '@ember/object'
-
 import Service from '@ember/service'
-
+import {settled} from '@ember/test-helpers'
 import {expect} from 'chai'
-import wait from 'ember-test-helpers/wait'
 import {
   returnPromiseFromStub,
   storeMethods,
@@ -17,17 +15,23 @@ import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 describe('Unit / utils / stub /', function () {
-  let sandbox
+  let sandbox, context, sbox, result, service, stub, resolver
   beforeEach(function () {
     sandbox = sinon.createSandbox()
   })
 
   afterEach(function () {
     sandbox.restore()
+    sandbox = null
+    context = null
+    sbox = null
+    result = null
+    service = null
+    stub = null
+    resolver = null
   })
 
   describe('stubService()', function () {
-    let context, sbox, result
     beforeEach(function () {
       context = {
         owner: {
@@ -59,7 +63,6 @@ describe('Unit / utils / stub /', function () {
       })
 
       describe('the stubbed service', function () {
-        let service
         beforeEach(function () {
           service = context.owner.register.lastCall.args[1]
         })
@@ -95,7 +98,6 @@ describe('Unit / utils / stub /', function () {
       })
 
       describe('the stubbed service', function () {
-        let service
         beforeEach(function () {
           service = context.owner.register.lastCall.args[1]
         })
@@ -115,7 +117,6 @@ describe('Unit / utils / stub /', function () {
   })
 
   describe('returnPromiseFromStub()', function () {
-    let stub, resolver
     beforeEach(function () {
       stub = {
         returns: sandbox.stub(),
@@ -138,7 +139,7 @@ describe('Unit / utils / stub /', function () {
 
       describe('when resolving', function () {
         let result, error
-        beforeEach(function () {
+        beforeEach(async function () {
           result = error = null
           resolver.promise
             .then((resp) => {
@@ -149,7 +150,7 @@ describe('Unit / utils / stub /', function () {
             })
 
           resolver.resolve('all good')
-          return wait()
+          return settled()
         })
 
         describe('the returned promise', function () {
@@ -176,7 +177,7 @@ describe('Unit / utils / stub /', function () {
             })
 
           resolver.reject('aw, snap')
-          return wait()
+          return settled()
         })
 
         describe('the returned promise', function () {
@@ -217,7 +218,7 @@ describe('Unit / utils / stub /', function () {
             })
 
           resolver.resolve('all good')
-          return wait()
+          return settled()
         })
 
         describe('the returned promise', function () {
@@ -244,7 +245,7 @@ describe('Unit / utils / stub /', function () {
             })
 
           resolver.reject('aw, snap')
-          return wait()
+          return settled()
         })
 
         describe('the returned promise', function () {

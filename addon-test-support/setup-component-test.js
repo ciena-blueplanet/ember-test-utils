@@ -35,10 +35,7 @@ function component (name, options = {}) {
               console.error('Make sure you have run setup() before trying to access subject.')
             }
 
-            const subject = this.owner.lookup(`component:${name}`)
-            Object.keys(overrides).forEach(key => {
-              subject.set(key, overrides[key])
-            })
+            const subject = this.owner.__container__.factoryFor(`component:${name}`).create(overrides)
 
             return subject
           }

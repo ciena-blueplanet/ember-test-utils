@@ -8,6 +8,9 @@ module.exports = function (defaults) {
         'node_modules/ember-frost-css-core/scss',
         'node_modules/ember-frost-theme/scss'
       ]
+    },
+    'ember-cli-babel': {
+      includePolyfill: true
     }
   })
 
