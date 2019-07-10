@@ -1,3 +1,10 @@
+# 9.1.1 (2019-07-10)
+
+* Fixed `unit` from `setup-component-test` to initialize components with supplied properties in `subject(overrides)`
+* Updated documentation to show the correct way to call test helpers
+* Removed old test that no longer applies due to how tests are boot up
+
+
 # 9.1.0 (2019-02-27)
 
 * Upgrade eslint-plugin-ember-standard
