@@ -7,9 +7,8 @@ describe(test.label, function () {
   const context = test.setup()
 
   describe('address()', function () {
-    let serializer
     it('should combine all the address pieces', function () {
-      serializer = context.subject.call(this, {
+      const serializer = context.subject.call(this, {
         street: '123 Main Street',
         city: 'Smallville',
         state: 'KA',

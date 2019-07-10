@@ -3,7 +3,7 @@
  */
 import {expect} from 'chai'
 import {controller} from 'ember-test-utils/test-support/setup-test'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 const test = controller('demo')
 describe(test.label, function () {
@@ -16,6 +16,10 @@ describe(test.label, function () {
         username: 'tony.stark'
       }
     })
+  })
+
+  afterEach(function () {
+    controller = null
   })
 
   describe('name()', function () {

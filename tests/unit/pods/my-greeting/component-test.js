@@ -3,7 +3,7 @@
  */
 import {expect} from 'chai'
 import {unit} from 'ember-test-utils/test-support/setup-component-test'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 
 const test = unit('my-greeting')
 describe(test.label, function () {
@@ -14,6 +14,10 @@ describe(test.label, function () {
     component = context.subject.call(this, {
       name: 'John'
     })
+  })
+
+  afterEach(function () {
+    component = null
   })
 
   describe('greeting()', function () {

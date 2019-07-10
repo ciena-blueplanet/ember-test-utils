@@ -4,22 +4,30 @@
 import {expect} from 'chai'
 import {route} from 'ember-test-utils/test-support/setup-test'
 import {returnPromiseFromStub, stubService} from 'ember-test-utils/test-support/stub'
-import {beforeEach, describe, it} from 'mocha'
+import {afterEach, beforeEach, describe, it} from 'mocha'
 import sinon from 'sinon'
 
 const test = route('demo', ['model:company'])
 describe(test.label, function () {
   const context = test.setup()
 
-  let route, sandbox, store, resolver
+  let route, sandbox, store, resolver, model
   beforeEach(function () {
     sandbox = sinon.createSandbox()
     store = stubService(this, sandbox, 'store')
     route = context.subject.call(this)
   })
 
+  afterEach(function () {
+    sandbox.restore()
+    sandbox = null
+    route = null
+    store = null
+    resolver = null
+    model = null
+  })
+
   describe('.model()', function () {
-    let model
     beforeEach(function () {
       resolver = returnPromiseFromStub(store.findAll)
       route.model().then((value) => {
@@ -32,9 +40,9 @@ describe(test.label, function () {
     })
 
     describe('when findAll resolves', function () {
-      beforeEach(function () {
+      beforeEach(async function () {
         resolver.resolve(['one', 'two', 'three'])
-        return resolver.promise
+        await resolver.promise
       })
 
       it('should return the proper username', function () {
