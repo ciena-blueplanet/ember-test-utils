@@ -13,7 +13,6 @@ const FILE_LOCATIONS = [
   'addon-test-support/**/*.js',
   'app/**/*.js',
   'config/**/*.js',
-  'mirage/**/*.js',
   'test-support/**/*.js',
   'tests/**/*.js',
   '*.js'
