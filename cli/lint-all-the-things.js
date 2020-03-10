@@ -31,7 +31,7 @@ function lint () {
     })
 
   console.log(
-    chalk.gray('\nLinting complete!')
+    chalk.gray('\nlinting complete!')
   )
 
   const erred = results.indexOf(true) !== -1
