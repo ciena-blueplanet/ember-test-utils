@@ -1,3 +1,6 @@
+# 11.0.1 (2020-03-10)
+* Updated package version
+
 # 9.1.1 (2019-07-10)
 
 * Fixed `unit` from `setup-component-test` to initialize components with supplied properties in `subject(overrides)`
