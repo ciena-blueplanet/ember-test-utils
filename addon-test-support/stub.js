@@ -36,7 +36,6 @@ export const storeMethods = [
   'flushPendingSave',
   'getReference',
   'hashRecordForId',
-  'init',
   'modelFor',
   'normalize',
   'peekAll',
