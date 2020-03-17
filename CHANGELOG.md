@@ -1,3 +1,6 @@
+# 12.0.0 (2020-03-17)
+* Removed linting scripts and dependencies 
+
 # 11.0.2 (2020-03-16)
 Remove stub store.init to be compatible with Ember Octane
 
